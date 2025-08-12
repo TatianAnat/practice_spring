@@ -2,6 +2,12 @@ package com.skypro.mortgage.traditional;
 
 public class CardService {
 
+    static {
+        ServiceLocator.setService(new CardService("SWIFT"));
+        ServiceLocator.setService("SWIFT", new CardService("SWIFT"));
+        ServiceLocator.setService("НСПК", new CardService("НСПК"));
+    }
+
     private String type;
 
     public CardService(String type) {this.type = type;}

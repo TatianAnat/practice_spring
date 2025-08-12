@@ -24,18 +24,7 @@ public class MortgageServise {
     }
 
     public static void main(String[] args) {
-        //заранее создаём все свои зависимости
-        ScoringService scoringService1 = new ScoringService();
-        ServiceLocator.setService(scoringService1);
-        CalculatorService calculatorService1 = new CalculatorService();
-        ServiceLocator.setService(calculatorService1);
-        CardService cardServiceNspk = new CardService("НСПК");
-        ServiceLocator.setService("НСПК",cardServiceNspk);
-
-        CardService cardServiceSwift = new CardService("SWIFT");
-        ServiceLocator.setService("SWIFT", cardServiceSwift);
-        PrintService printService1 = new PrintService("А4");
-        ServiceLocator.setService(printService1);
+        //не нужно ничего создавать, оно создаётся в статических блоках
 
         System.out.println("Через НСПК");
         MortgageServise mortgageServise = new MortgageServise(

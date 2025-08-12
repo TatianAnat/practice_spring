@@ -2,6 +2,12 @@ package com.skypro.mortgage.traditional;
 
 public class DealService {
 
+    static {
+        ServiceLocator.setService(new DealService(
+                ServiceLocator.getService(CardService.class)
+        ));
+    }
+
     private final CardService cardService; //вложенный сервис
 
     public DealService(CardService cardService) {

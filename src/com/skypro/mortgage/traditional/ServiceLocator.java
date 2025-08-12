@@ -8,6 +8,19 @@ public class ServiceLocator {
 
     private static final Map<Class, Map<String,Object>> SERVICE_MAP = new HashMap<>();
 
+    static {
+        try {
+            Class.forName("com.skypro.mortgage.traditional.ScoringService");
+            Class.forName("com.skypro.mortgage.traditional.CalculatorService");
+            Class.forName("com.skypro.mortgage.traditional.CardService");
+            Class.forName("com.skypro.mortgage.traditional.DealService");
+            Class.forName("com.skypro.mortgage.traditional.PrintService");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static void setService(Object service) {
         SERVICE_MAP.computeIfAbsent(service.getClass(), cls -> new HashMap<>()).put(service.getClass().getName(),service);
     }
