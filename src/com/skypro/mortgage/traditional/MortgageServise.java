@@ -26,20 +26,34 @@ public class MortgageServise {
     public static void main(String[] args) {
         //заранее создаём все свои зависимости
         ScoringService scoringService1 = new ScoringService();
+        ServiceLocator.setService(scoringService1);
         CalculatorService calculatorService1 = new CalculatorService();
+        ServiceLocator.setService(calculatorService1);
         CardService cardServiceNspk = new CardService("НСПК");
-        DealService dealService1 = new DealService(cardServiceNspk);
+        ServiceLocator.setService("НСПК",cardServiceNspk);
+
+        CardService cardServiceSwift = new CardService("SWIFT");
+        ServiceLocator.setService("SWIFT", cardServiceSwift);
         PrintService printService1 = new PrintService("А4");
+        ServiceLocator.setService(printService1);
+
         System.out.println("Через НСПК");
-        MortgageServise mortgageServise = new MortgageServise(scoringService1, calculatorService1, dealService1, printService1);
+        MortgageServise mortgageServise = new MortgageServise(
+                ServiceLocator.getService(ScoringService.class),
+                ServiceLocator.getService(CalculatorService.class),
+                new DealService(ServiceLocator.getService(CardService.class,"НСПК")),
+                ServiceLocator.getService(PrintService.class));
         mortgageServise.getMortgage();
         System.out.println("Через SWIFT");
-        CardService cardServiceSwift = new CardService("SWIFT");
-        DealService dealService2 = new DealService(cardServiceSwift);
-        //dealService1.setCardService(cardServiceSwift);
-        new MortgageServise(scoringService1, calculatorService1, dealService2, printService1).getMortgage();
-        mortgageServise.getMortgage();
-        System.out.println("Через НСПК");
+
+        MortgageServise mortgageServise2 = new MortgageServise(
+                ServiceLocator.getService(ScoringService.class),
+                ServiceLocator.getService(CalculatorService.class),
+                new DealService(ServiceLocator.getService(CardService.class,"SWIFT")),
+                ServiceLocator.getService(PrintService.class));
+
+        mortgageServise2.getMortgage();
+        System.out.println("Опять НСПК");
         mortgageServise.getMortgage();
     }
 }
